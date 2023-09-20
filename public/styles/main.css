@@ -1,0 +1,12 @@
+body{
+    background-color: #e0e9f6;
+}
+.listHomework{
+     border-radius: 10px;
+      width: 300px;
+}
+.check{
+    background-color: #8a9ffb; 
+    height: 100px; 
+    border-radius: 10px;
+}
