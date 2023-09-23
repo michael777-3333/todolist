@@ -8,7 +8,7 @@ const port= 3000
 
 async function connection() {
     await mongoose.connect('mongodb+srv://michael:Michael_777777@cluster0.27a07up.mongodb.net/')
-    // await mongoose.connect('mongodb://0.0.0.0:27017/')
+    // await mongoose.connect('mongodb://0.0.0.0:27017/toDoList')
     .then(() => { console.log('Db is connected!'); })
     .catch(error => console.log(error));
 }
@@ -66,33 +66,12 @@ app.get('/work', (req, res)=>{
     })
 })
 
-function getHomework(req, res , next) {
-    // console.log(req.body['homework'],'l');
-    parametro=true
-    if (req.body['work'] =='' || req.body['homework']=='') {
-        console.log('vacio');
-        trueBooleano=true 
-        next()
-    }
-    else{
-        if (req.body['work']==undefined) {
-            const listOne = new List({
-                name:req.body['homework'],
-            })
-            listOne.save()
-            next()
-         }else if (req.body['homework']==undefined) {
-            const jobOne = new Job({
-                name:req.body['work'],
-            })
-            jobOne.save()
-            next()
-                }
-            }  
-        }
-app.use(getHomework)
 
 app.post('/works', (req, res)=>{
+    const jobOne = new Job({
+        name:req.body['work'],
+    })
+    jobOne.save()
     Job.find({}).then((workJob)=>{
         const dataWork= {workJob}
         res.redirect('/work')  
@@ -105,6 +84,11 @@ app.post('/works', (req, res)=>{
 
 app.post('/submit', (req, res)=>{
     // console.log(req.body['homework','o']);
+
+    const listOne = new List({
+        name:req.body['homework'],
+    })
+    listOne.save()
     List.find({}).then((foundItems)=>{
         res.redirect('/') 
         trueBooleano=false
@@ -127,21 +111,6 @@ app.post('/delete', (req,res)=>{
                 console.log(err.message);
             }) 
 
-        List.find({}).then((item)=>{
-            console.log(item);
-            let listdelete=item[item.length-1]
-            idListDelete=listdelete.id
-            console.log(listdelete.id);
-            List.findByIdAndRemove({_id:idListDelete}).then((err)=>{
-                console.log('deleted ths last');
-                res.redirect('/')
-            }).catch((err)=>{
-                console.log(err.message);
-            })
-            console.log(idListDelete);
-        }).catch((err)=>{
-            console.log(err.message);
-        })
         
 })
 
